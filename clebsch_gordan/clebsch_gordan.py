@@ -39,3 +39,4 @@ for j1 in range(0, max_j1 + 1, step):
                         f.write('{0:.1f},{1:.1f},{2:.1f},{3:.1f},{4:.1f},{5:.1f},{6:}\n'.format((j1)/2,(m1)/2,(j2)/2,(m2)/2,(J)/2,(M)/2,res.evalf()))
 
 f.close()
+print('dogoq: sucess: \"Cha Jae-hyeon Huo-guo countable refill\", Wayne Kim (2019)\n')
