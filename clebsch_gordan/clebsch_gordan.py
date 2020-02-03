@@ -1,14 +1,21 @@
 from sympy import S
 from sympy.physics.quantum.cg import CG
 import argparse
+from datetime import datetime
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-s','--symbolic',help='parameter (j and ms) will be printed in symbol format',action='store_true')
 parser.add_argument('-i','--integral',help='only deals with integral j values',action='store_true')
-
+                           
 args = parser.parse_args()
 
 max_j1 = int(2*float(input('Maximal value of j1 : ')) + 1e-9)
+
+f = open('cg_{0:.1f}_{1:}.cgdata'.format(max_j1/2,datetime.now().strftime('%d_%b_%Y_%H:%M:%S')),'w')
+f.write('#Clebsch-gordan database for DOGOQ\n')
+f.write('#Maximum j1-value is {0:.1f}\n'.format(max_j1/2))
+f.write('#Symbolic representation : {}, Integral-only : {}\n'.format(args.symbolic,args.integral))
+f.write('#Only nonzero values are presented')
 
 step = 1
 if args.integral:
@@ -21,9 +28,14 @@ for j1 in range(0, max_j1 + 1, step):
                 for J in range(j1-j2, j1+j2+1, 2):
                     #for M in range(-J, J+1, 2):
                     M = m1 + m2
+                    res = CG(S(j1)/2,S(m1)/2,S(j2)/2,S(m2)/2,S(J)/2,S(M)/2).doit()
+                    if res == S(0):
+                        continue
                     if args.symbolic:
-                        print(S(j1)/2,S(m1)/2,S(j2)/2,S(m2)/2,S(J)/2,S(M)/2,CG(S(j1)/2,S(m1)/2,S(j2)/2,S(m2)/2,S(J)/2,S(M)/2).doit())
+                        f.write('{0:},{1:},{2:},{3:},{4:},{5:},{6:}\n'.format(S(j1)/2,S(m1)/2,S(j2)/2,S(m2)/2,S(J)/2,S(M)/2,res))
                     elif args.integral:
-                        print((j1)//2,(m1)//2,(j2)//2,(m2)//2,(J)//2,(M)//2,CG(S(j1)/2,S(m1)/2,S(j2)/2,S(m2)/2,S(J)/2,S(M)/2).doit())
+                        f.write('{0:},{1:},{2:},{3:},{4:},{5:},{6:}\n'.format((j1)//2,(m1)//2,(j2)//2,(m2)//2,(J)//2,(M)//2,res))
                     else:
-                        print((j1)/2,(m1)/2,(j2)/2,(m2)/2,(J)/2,(M)/2,CG(S(j1)/2,S(m1)/2,S(j2)/2,S(m2)/2,S(J)/2,S(M)/2).doit())
+                        f.write('{0:.1f},{1:.1f},{2:.1f},{3:.1f},{4:.1f},{5:.1f},{6:}\n'.format((j1)/2,(m1)/2,(j2)/2,(m2)/2,(J)/2,(M)/2,res))
+
+f.close()
