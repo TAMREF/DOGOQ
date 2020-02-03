@@ -15,7 +15,7 @@ f = open('cg_{0:.1f}_{1:}.cgdata'.format(max_j1/2,datetime.now().strftime('%d_%b
 f.write('#Clebsch-gordan database for DOGOQ\n')
 f.write('#Maximum j1-value is {0:.1f}\n'.format(max_j1/2))
 f.write('#Symbolic representation : {}, Integral-only : {}\n'.format(args.symbolic,args.integral))
-f.write('#Only nonzero values are presented')
+f.write('#Only nonzero values are presented\n')
 
 step = 1
 if args.integral:
@@ -34,8 +34,8 @@ for j1 in range(0, max_j1 + 1, step):
                     if args.symbolic:
                         f.write('{0:},{1:},{2:},{3:},{4:},{5:},{6:}\n'.format(S(j1)/2,S(m1)/2,S(j2)/2,S(m2)/2,S(J)/2,S(M)/2,res))
                     elif args.integral:
-                        f.write('{0:},{1:},{2:},{3:},{4:},{5:},{6:}\n'.format((j1)//2,(m1)//2,(j2)//2,(m2)//2,(J)//2,(M)//2,res))
+                        f.write('{0:},{1:},{2:},{3:},{4:},{5:},{6:}\n'.format((j1)//2,(m1)//2,(j2)//2,(m2)//2,(J)//2,(M)//2,res.evalf()))
                     else:
-                        f.write('{0:.1f},{1:.1f},{2:.1f},{3:.1f},{4:.1f},{5:.1f},{6:}\n'.format((j1)/2,(m1)/2,(j2)/2,(m2)/2,(J)/2,(M)/2,res))
+                        f.write('{0:.1f},{1:.1f},{2:.1f},{3:.1f},{4:.1f},{5:.1f},{6:}\n'.format((j1)/2,(m1)/2,(j2)/2,(m2)/2,(J)/2,(M)/2,res.evalf()))
 
 f.close()
