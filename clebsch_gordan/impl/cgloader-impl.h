@@ -8,7 +8,6 @@
 #include <tuple>
 #include <fstream>
 #include "clebsch_gordan/tools.h"
-#include "..\cgloader.h"
 
 namespace DOGOQ {
 
