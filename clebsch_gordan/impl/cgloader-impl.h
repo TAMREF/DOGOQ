@@ -7,28 +7,37 @@
 #include <map>
 #include <tuple>
 #include <fstream>
-#include "clebsch_gordan/tools.h"
+#include "../tools.h"
+#include <iostream>
+#include <algorithm>
 
 namespace DOGOQ {
+    template<typename T>
+    const std::string CGloader<T>::fname = "db.cgdata";
 
-	explicit CGloader::CGloader(const std::string F = fname) {
+    template<typename T>
+	CGloader<T>::CGloader(const std::string F) {
 		std::ifstream fin(F);
-		std::string msg = "The input file " + F + " should not be null";
-		assert((msg, !fin));
+		//std::cout << "Input file : " << F << std::endl; 
+		assert(fin.is_open());
 		std::string G; //garbage
-		while (fin.peek() == int('#')) {
-			getline(fin, G);
-		}
 		while (fin.peek() != EOF) {
+		    //std::cout << char(fin.peek()) << '\n';
+		    if( fin.peek() == int('#')){
+		        getline(fin, G);
+		        continue;
+		    }
 			T j[3], m[3], res;
 			assert(fin >> j[0] >> m[0] >> j[1] >> m[1] >> j[2] >> m[2] >> res);
 			int jj[3], mm[3];
 			for (int i = 0; i < 3; i++) {
-				jj[i] = round(j[i] * 2.L);
-				mm[i] = round(m[i] * 2.L);
+				jj[i] = round<int>(j[i] * 2.L);
+				mm[i] = round<int>(m[i] * 2.L);
 			}
-			dat[tie(jj[0], mm[0], jj[1], mm[1], jj[2], mm[2])] = res;
+			dat[std::make_tuple(jj[0], mm[0], jj[1], mm[1], jj[2], mm[2])] = res;
+			fin.get();
 		}
+		std::cout << "DB size is " << dat.size() << std::endl;
 	}
 	template<typename T>
 	inline CGloader<T>::~CGloader()
@@ -37,13 +46,23 @@ namespace DOGOQ {
 	template <typename T>
 	//!TODO : change data type
 	inline T CGloader<T>::operator() (d6 f) const {
-		if (!dat.count(f)) return T(0);
-		return dat[f];
+	    return (dat.count(f) ? dat.at(f) : T(0));
+		//if (!dat.count(f)) return T(0);
+		//return dat[f];
 	}
 
 	template <typename T>
-	inline T CGloader<T>::operator() (int j1, int m1, int j2, int m2, int J, int M) const {
-		auto X = std::make_tuple(j1, m1, j2, m2, J, M);
+	inline T CGloader<T>::operator() (double j1, double m1, double j2, double m2, double J, double M) const {
+	    if (j1 < j2){
+	        std::swap(j1, j2);
+	        std::swap(m1, m2);
+	    }
+	    auto X = std::make_tuple(round<int>(j1 * 2.L),
+	                            round<int>(j2 * 2.L),
+	                            round<int>(m1 * 2.L),
+	                            round<int>(m2 * 2.L),
+	                            round<int>(J  * 2.L),
+	                            round<int>(M  * 2.L));
 		return (*this)(X);
 	}
 }

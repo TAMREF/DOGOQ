@@ -32,11 +32,11 @@ for j1 in range(0, max_j1 + 1, step):
                     if res == S(0):
                         continue
                     if args.symbolic:
-                        f.write('{0:},{1:},{2:},{3:},{4:},{5:},{6:}\n'.format(S(j1)/2,S(m1)/2,S(j2)/2,S(m2)/2,S(J)/2,S(M)/2,res))
+                        f.write('{0:}\t{1:\t{2:}\t{3:}\t{4:}\t{5:}\t{6:}\n'.format(S(j1)/2,S(m1)/2,S(j2)/2,S(m2)/2,S(J)/2,S(M)/2,res))
                     elif args.integral:
-                        f.write('{0:},{1:},{2:},{3:},{4:},{5:},{6:}\n'.format((j1)//2,(m1)//2,(j2)//2,(m2)//2,(J)//2,(M)//2,res.evalf()))
+                        f.write('{0:}\t{1:}\t{2:}\t{3:}\t{4:}\t{5:}\t{6:}\n'.format((j1)//2,(m1)//2,(j2)//2,(m2)//2,(J)//2,(M)//2,res.evalf()))
                     else:
-                        f.write('{0:.1f},{1:.1f},{2:.1f},{3:.1f},{4:.1f},{5:.1f},{6:}\n'.format((j1)/2,(m1)/2,(j2)/2,(m2)/2,(J)/2,(M)/2,res.evalf()))
+                        f.write('{0:.1f}\t{1:.1f}\t{2:.1f}\t{3:.1f}\t{4:.1f}\t{5:.1f}\t{6:}\n'.format((j1)/2,(m1)/2,(j2)/2,(m2)/2,(J)/2,(M)/2,res.evalf()))
 
 f.close()
 print('dogoq: success: \"Cha Jae-hyeon Huo-guo countable refill\", Wayne Kim (2019)\n')
