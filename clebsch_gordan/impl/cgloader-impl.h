@@ -23,7 +23,7 @@ namespace DOGOQ {
 	CGloader<T>::CGloader(const std::string arg) {
 	    const std::string F = (arg == std::string("default") ? fname : arg);
 		std::ifstream fin(F);
-		//std::cout << "Input file : " << F << std::endl; 
+		std::cout << "Input file : " << F << std::endl; 
 		assert(fin.is_open());
 		std::string G; //garbage
 		while (fin.peek() != EOF) {

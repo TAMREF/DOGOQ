@@ -44,10 +44,16 @@
     <None Include="..\README.md">
       <Filter>소스 파일</Filter>
     </None>
+    <None Include="..\clebsch_gordan\db.cgdata">
+      <Filter>리소스 파일</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\clebsch_gordan\tester.cpp">
+    <ClCompile Include="..\clebsch_gordan\sph_tester.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="..\clebsch_gordan\test_case.c">
+      <Filter>리소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
