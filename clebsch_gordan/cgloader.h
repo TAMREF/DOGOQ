@@ -12,11 +12,14 @@ namespace DOGOQ{
         std::map<d6, T> dat;
     public:
         static const std::string fname;
-        explicit CGloader(const std::string F=fname);
+		explicit CGloader();
+        explicit CGloader(const std::string F);
         ~CGloader();
         T operator() (d6 f) const;
         T operator() (double j1, double m1, double j2, double m2, double J, double M) const;
     };
+	template<typename T>
+	CGloader<T> cg_std = CGloader<T>(CGloader<T>::fname);
 }
 
 #include "impl/cgloader-impl.h"

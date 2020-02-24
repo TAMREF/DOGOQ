@@ -19,3 +19,7 @@ bin-release/
 /.vs/slnx.sqlite
 /.vs/VSWorkspaceState.json
 /.vs
+
+*.sln
+*.vcxproj
+*.opendb

@@ -12,9 +12,10 @@
 #include <algorithm>
 
 namespace DOGOQ {
-    template<typename T>
-    const std::string CGloader<T>::fname = "db.cgdata";
-
+	template<typename T>
+	const std::string CGloader<T>::fname = "db.cgdata";
+	template<typename T>
+	CGloader<T>::CGloader() {}
     template<typename T>
 	CGloader<T>::CGloader(const std::string F) {
 		std::ifstream fin(F);
