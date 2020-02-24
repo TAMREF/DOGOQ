@@ -2,16 +2,24 @@ from sympy import S
 from sympy.physics.quantum.cg import CG
 import argparse
 from datetime import datetime
+import sys
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-s','--symbolic',help='parameter (j and ms) will be printed in symbol format',action='store_true')
 parser.add_argument('-i','--integral',help='only deals with integral j values',action='store_true')
-                           
+parser.add_argument('-o','--output',help='output filename',type=str)
+
 args = parser.parse_args()
 
 max_j1 = int(2*float(input('Maximal value of j1 : ')) + 1e-9)
 
-f = open('cg_{0:.1f}_{1:}.cgdata'.format(max_j1/2,datetime.now().strftime('%d_%b_%Y_%H:%M:%S')),'w')
+if args.output:
+    c = input('Output file will be ' + args.output + '. Are you sure? [y/n]')
+    if c != 'y' and c != 'yes':
+        sys.exit(0)
+
+
+f = open(args.output,'w') if args.output else open('cg_{0:.1f}_{1:}.cgdata'.format(max_j1/2,datetime.now().strftime('%d_%b_%Y_%H:%M:%S')),'w')
 f.write('#Clebsch-gordan database for DOGOQ\n')
 f.write('#Maximum j1-value is {0:.1f}\n'.format(max_j1/2))
 f.write('#Symbolic representation : {}, Integral-only : {}\n'.format(args.symbolic,args.integral))

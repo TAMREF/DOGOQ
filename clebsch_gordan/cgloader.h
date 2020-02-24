@@ -14,7 +14,7 @@ namespace DOGOQ{
     public:
         static const std::string fname;
 		explicit CGloader();
-        explicit CGloader(const std::string F);
+        explicit CGloader(const std::string arg);
         ~CGloader();
         T operator() (d6 f) const;
         T operator() (double j1, double m1, double j2, double m2, double J, double M) const;
