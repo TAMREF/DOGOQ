@@ -14,6 +14,9 @@
 namespace DOGOQ {
 	template<typename T>
 	const std::string CGloader<T>::fname = "db.cgdata";
+	template <typename T>
+	CGloader<T>* CGloader<T>::ori = nullptr;
+
 	template<typename T>
 	CGloader<T>::CGloader() {}
     template<typename T>
@@ -39,21 +42,25 @@ namespace DOGOQ {
 			fin.get();
 		}
 		std::cout << "DB size is " << dat.size() << std::endl;
+		if(CGloader<T>::ori != nullptr) CGloader<T>::ori = this;
 	}
 	template<typename T>
 	inline CGloader<T>::~CGloader()
 	{
+	    if(CGloader<T>::ori == this) CGloader<T>::ori = nullptr;
 	}
 	template <typename T>
 	//!TODO : change data type
 	inline T CGloader<T>::operator() (d6 f) const {
-	    return (dat.count(f) ? dat.at(f) : T(0));
+	    assert(CGloader<T>::ori != nullptr);
+	    return (CGloader<T>::ori->dat.count(f) ? CGloader<T>::ori->dat.at(f) : T(0));
 		//if (!dat.count(f)) return T(0);
 		//return dat[f];
 	}
 
 	template <typename T>
 	inline T CGloader<T>::operator() (double j1, double m1, double j2, double m2, double J, double M) const {
+	    assert(CGloader<T>::ori != nullptr);
 	    if (j1 < j2){
 	        std::swap(j1, j2);
 	        std::swap(m1, m2);
@@ -64,6 +71,6 @@ namespace DOGOQ {
 	                            round<int>(m2 * 2.L),
 	                            round<int>(J  * 2.L),
 	                            round<int>(M  * 2.L));
-		return (*this)(X);
+		return (*CGloader<T>::ori)(X);
 	}
 }

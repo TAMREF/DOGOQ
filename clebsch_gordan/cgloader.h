@@ -10,6 +10,7 @@ namespace DOGOQ{
         //! TODO : Replace data type
         using d6 = std::tuple<int,int,int,int,int,int>;
         std::map<d6, T> dat;
+        static CGloader<T>* ori;
     public:
         static const std::string fname;
 		explicit CGloader();
@@ -18,8 +19,6 @@ namespace DOGOQ{
         T operator() (d6 f) const;
         T operator() (double j1, double m1, double j2, double m2, double J, double M) const;
     };
-	template<typename T>
-	CGloader<T> cg_std = CGloader<T>(CGloader<T>::fname);
 }
 
 #include "impl/cgloader-impl.h"
